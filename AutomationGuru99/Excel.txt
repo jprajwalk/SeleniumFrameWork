@@ -1,0 +1,85 @@
+import org.apache.poi.ss.usermodel.*;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class ReadExcel {
+    public static void main(String[] args) {
+        try {
+            // Specify the path of the Excel file
+            String excelFilePath = "path/to/your/excel/file.xlsx";
+
+            // Create a FileInputStream to read from the Excel file
+            FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
+
+            // Create a workbook object
+            Workbook workbook = WorkbookFactory.create(inputStream);
+
+            // Get the first sheet in the workbook
+            Sheet sheet = workbook.getSheetAt(0);
+
+            // Get the cell in the 2nd row and 2nd column (0-based index)
+            Row row = sheet.getRow(1); // 2nd row (index 1)
+            Cell cell = row.getCell(1); // 2nd column (index 1)
+
+            // Get the value of the cell
+            String cellValue = "";
+
+            if (cell != null) {
+                switch (cell.getCellType()) {
+                    case STRING:
+                        cellValue = cell.getStringCellValue();
+                        break;
+                    case NUMERIC:
+                        cellValue = String.valueOf(cell.getNumericCellValue());
+                        break;
+                    case BOOLEAN:
+                        cellValue = String.valueOf(cell.getBooleanCellValue());
+                        break;
+                    case BLANK:
+                        cellValue = "[BLANK]";
+                        break;
+                    default:
+                        cellValue = "[UNKNOWN]";
+                }
+            } else {
+                cellValue = "[EMPTY]";
+            }
+
+            // Print the value of the cell
+            System.out.println("Value of 2nd row and 2nd column: " + cellValue);
+
+            // Close the workbook and input stream
+            workbook.close();
+            inputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+
+
+	String alertMessage = null;
+		try 
+        {
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+            alertMessage = alert.getText();
+            
+            alert.dismiss();
+        } 
+        catch (Exception e) 
+        {
+            System.out.println("Error occurred: " + e.getMessage());
+        }
+        
+         System.out.println("Alert Message : " + alertMessage);
+            if (alertMessage.equals("Customer Registered Successfully!!!")) {
+        
+            } 
+            else {
+                // Handle other alert messages if needed
+            	System.out.println("Email address already exists.");
+            }
